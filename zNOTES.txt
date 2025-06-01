@@ -1,0 +1,25 @@
+DATE STARTED: 05/30/2025
+
+- installed prisma
+
+
+
+
+💡 Core Features of an Expense Tracker
+    📝 1. Add Expenses. Input: title, amount, date, category, optional note. Example: Groceries - $50 - May 30 - Food
+    📋 2. View Expense List. Paginated or filterable list of expenses. Grouped by day, week, or month (optional)
+    🔍 3. Filter / Search Expenses. Filter by category, date range, or keyword. Sort by amount, newest, oldest, etc.
+    ✏️ 4. Edit Expenses. Update amount, category, date, or title
+    ❌ 5. Delete Expenses. Soft delete (optional) or hard delete
+    📊 6. View Summary. Total spending this week/month/year. Spending per category. Visuals: pie chart, bar graph, line graph
+    🏷️ 7. Category Management. Create, update, and delete custom categories (e.g., Food, Travel, Bills)
+    👤 8. User Authentication (Optional but useful). Sign in/out. Only view your own expenses
+
+📘 Advanced / Bonus Features
+    📆 Recurring Expenses (e.g. monthly rent)
+    📈 Budget Tracking (set limits per category)
+    🪙 Multi-Currency Support
+    📥 Export to CSV/PDF
+    🔔 Spending Alerts (if over budget)
+    ☁️ Cloud Sync (with Supabase or Firebase)
+    📱 Responsive / PWA design for mobile use

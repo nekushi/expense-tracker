@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Category {
+  food
+  transportation
+  utilities
+  entertainment
+  health
+  education
+  shopping
+  savings
+  others
+}
+
+// 📝 1. Add Expenses. Input: title, amount, date, category, optional note. Example: Groceries - $50 - May 30 - Food === DONE
+model Expenses {
+  id          String   @id @default(uuid())
+  title       String
+  amount      Decimal
+  category    Category @default(others)
+  description String
+  date        DateTime @default(now())
+}
+
+// 2. View Expense List. Paginated or filterable list of expenses. Grouped by day, week, or month (optional)
