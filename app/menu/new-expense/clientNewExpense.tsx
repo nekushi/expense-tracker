@@ -135,7 +135,7 @@ export default function ClientNewExpense({
     <>
       <Card className="">
         <CardHeader>
-          <CardTitle className="wext-xl font-medium">
+          <CardTitle className="text-lg font-medium">
             Track New Expenses
           </CardTitle>
           {/* <CardDescription className="opacity-0 cursor-default">

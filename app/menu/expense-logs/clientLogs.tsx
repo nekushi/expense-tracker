@@ -8,7 +8,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { IconEdit, IconTrash } from "@tabler/icons-react";
 import BtnEditExpense from "./btnEditExpense";
 import BtnDeleteExpense from "./btnDeleteExpense";
 
@@ -34,6 +33,7 @@ export default function ClientExpenseLogs({ data }: { data: any[] }) {
             <TableCell>₱{item.amount.toFixed(2)}</TableCell>
             <TableCell className="flex justify-end space-x-2">
               <BtnEditExpense
+                id={item.id}
                 title={item.title}
                 amount={item.amount}
                 category={item.category}
