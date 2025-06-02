@@ -30,7 +30,7 @@ enum Category {
 model Expenses {
   id          String   @id @default(uuid())
   title       String
-  amount      Decimal
+  amount      Float
   category    Category @default(others)
   description String
   date        DateTime @default(now())
