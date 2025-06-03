@@ -7,8 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ExpensesField } from "@/lib/types";
 
-export default function ExpenseTable({ data }: { data: any[] }) {
+export default function ExpenseTable({ data }: { data: ExpensesField[] }) {
   return (
     <Table className="w-11/12 mx-auto">
       <TableCaption>A list of all your expenses.</TableCaption>

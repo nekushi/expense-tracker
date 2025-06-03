@@ -28,7 +28,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import React, { useActionState } from "react";
+import { useState, useActionState } from "react";
 import { handleExpenseSubmit } from "@/app/action";
 
 import { Check, ChevronsUpDown } from "lucide-react";
@@ -49,6 +49,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import ExpenseTable from "./expenseTable";
+import { ExpensesField } from "@/lib/types";
 
 const categories = [
   {
@@ -100,11 +101,11 @@ export default function ClientNewExpense({
   data,
   lastData,
 }: {
-  data: any[];
-  lastData: any;
+  data: ExpensesField[];
+  lastData: ExpensesField;
 }) {
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
 
   const [state, expenseAction, pending] = useActionState(
     handleExpenseSubmit,
