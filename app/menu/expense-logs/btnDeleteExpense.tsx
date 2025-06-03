@@ -126,20 +126,3 @@ export default function BtnDeleteExpense({
     </Dialog>
   );
 }
-
-/*
-
-<div className="grid gap-4">
-            <div className="hidden">
-              <Label htmlFor="id">Expense id</Label>
-              <Input id="id" name="id" defaultValue={id} />
-            </div>
-          </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <Button type="submit">Delete</Button>
-          </DialogFooter>
-
-*/

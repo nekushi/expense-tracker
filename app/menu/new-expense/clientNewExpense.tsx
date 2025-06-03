@@ -139,18 +139,10 @@ export default function ClientNewExpense({
           <CardTitle className="text-lg font-medium">
             Track New Expenses
           </CardTitle>
-          {/* <CardDescription className="opacity-0 cursor-default">
-            Add Expense
-          </CardDescription> */}
-          {/* <CardAction>Card Action</CardAction> */}
         </CardHeader>
         <CardContent className="">
           <Form {...form}>
-            <form
-              action={expenseAction}
-              className="w-full space-y-6"
-              // className="w-2/3 space-y-6"
-            >
+            <form action={expenseAction} className="w-full space-y-6">
               <>
                 <FormField
                   control={form.control}
@@ -296,13 +288,11 @@ export default function ClientNewExpense({
                   )}
                 />
               </>
-              {/* title, amount, category, description */}
               <Button type="submit">Add Expense</Button>
             </form>
           </Form>
         </CardContent>
         <CardFooter>
-          {/* <p>Card Footer</p> */}
           {data.length === 0 ? (
             <p>No expenses yet.</p>
           ) : (
@@ -348,7 +338,6 @@ export default function ClientNewExpense({
           )}
         </CardFooter>
       </Card>
-      {/* <ExpenseTable data={data} /> */}
     </>
   );
 }

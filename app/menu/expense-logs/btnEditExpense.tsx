@@ -78,12 +78,9 @@ export default function BtnEditExpense({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <Form {...form}>
-          <form
-            action={editAction}
-            // className="w-2/3 space-y-6"
-          >
+          <form action={editAction}>
             <DialogHeader>
-              <DialogTitle>Edit profile</DialogTitle>
+              <DialogTitle>Edit expense</DialogTitle>
               <DialogDescription>
                 Make changes to your expense here. Click save when you're done.
               </DialogDescription>
