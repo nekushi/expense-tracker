@@ -75,8 +75,10 @@ export default function LoginForm() {
         // src="/bg-squares.jpg"
         src="/bg-black-github.png"
         alt="bg black github"
-        width={1600}
-        height={1600}
+        // width={1600}
+        // height={1600}
+        fill
+        objectFit="cover"
         className="absolute opacity-10 -z-50"
       />
       <Card className="w-full max-w-sm">

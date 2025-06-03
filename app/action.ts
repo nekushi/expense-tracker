@@ -5,6 +5,8 @@ import { Category } from "./generated/prisma";
 
 import { currentNow } from "@/lib/currentDate";
 import { redirect } from "next/navigation";
+import { createSession, decrypt, deleteSession } from "@/lib/session";
+import { cookies } from "next/headers";
 
 export async function handleExpenseSubmit(prevState: any, formdata: FormData) {
   console.log(`Attempting to add expense row.`);
@@ -14,6 +16,9 @@ export async function handleExpenseSubmit(prevState: any, formdata: FormData) {
   const category = formdata.get("category") as Category;
   const description = formdata.get("description") as string;
 
+  const session = (await cookies()).get("session")?.value;
+  const payload = await decrypt(session);
+
   const createExpense = await prisma.expenses.create({
     data: {
       title: name,
@@ -22,6 +27,9 @@ export async function handleExpenseSubmit(prevState: any, formdata: FormData) {
       description,
       createdAt: currentNow,
       updatedAt: currentNow,
+      user: {
+        connect: { id: payload?.userId as string },
+      },
     },
   });
 
@@ -39,6 +47,9 @@ export async function handleEditExpense(prevState: any, formdata: FormData) {
 
   console.log(name, amount, category, description);
 
+  const session = (await cookies()).get("session")?.value;
+  const payload = await decrypt(session);
+
   const editExpense = await prisma.expenses.update({
     where: {
       id: id,
@@ -50,6 +61,9 @@ export async function handleEditExpense(prevState: any, formdata: FormData) {
       category,
       description,
       updatedAt: currentNow,
+      user: {
+        connect: { id: payload?.userId as string },
+      },
     },
   });
 
@@ -78,6 +92,9 @@ export async function actionAddMoney(prevState: any, formdata: FormData) {
 
   console.log(name, amount, description);
 
+  const session = (await cookies()).get("session")?.value;
+  const payload = await decrypt(session);
+
   const createIncome = await prisma.income.create({
     data: {
       title: name,
@@ -85,6 +102,9 @@ export async function actionAddMoney(prevState: any, formdata: FormData) {
       description,
       createdAt: currentNow,
       updatedAt: currentNow,
+      user: {
+        connect: { id: payload?.userId as string },
+      },
     },
   });
 
@@ -116,5 +136,34 @@ export async function createUser(prevState: any, formdata: FormData) {
   });
 
   console.log(createUser);
+  redirect("/");
+}
+
+export async function login(prevState: any, formdata: FormData) {
+  console.log(`Attempting to login user.`);
+
+  const username = formdata.get("username") as string;
+  const password = formdata.get("password") as string;
+
+  console.log(username, password);
+
+  const findUser = await prisma.user.findUnique({
+    where: {
+      username,
+    },
+  });
+
+  if (!findUser) {
+    console.log(`No user found.`);
+  }
+
+  if (password === findUser?.password) {
+    await createSession(findUser.id, findUser.username, findUser.email);
+    redirect("/menu/new-expense");
+  }
+}
+
+export async function logout() {
+  await deleteSession();
   redirect("/");
 }

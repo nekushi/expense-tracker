@@ -29,6 +29,9 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import Image from "next/image";
 
+import { useActionState } from "react";
+import { login } from "./action";
+
 const formSchema = z.object({
   username: z.string().min(4, {
     message: "Username must be at least 6 characters.",
@@ -45,7 +48,8 @@ const formSchema = z.object({
 });
 
 export default function LoginForm() {
-  // ...
+  const [state, loginAction, pending] = useActionState(login, undefined);
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -59,17 +63,19 @@ export default function LoginForm() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    // console.log(values);
   }
 
   return (
-    <div className="border border-black w-full h-screen relative overflow-hidden flex justify-center items-center">
+    <div className="w-full h-screen relative overflow-hidden flex justify-center items-center">
       <Image
         // src="/bg-squares.jpg"
         src="/bg-black-github.png"
         alt="bg black github"
-        width={1600}
-        height={1600}
+        // width={1600}
+        // height={1600}
+        fill
+        objectFit="cover"
         className="absolute opacity-5 -z-50"
       />
       <Card className="w-full max-w-sm">
@@ -86,7 +92,7 @@ export default function LoginForm() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form className="space-y-6">
+            <form action={loginAction} className="space-y-6">
               <FormField
                 name="username"
                 render={() => (
@@ -95,15 +101,11 @@ export default function LoginForm() {
                     <FormControl>
                       <Input name="username" placeholder="enter username" />
                     </FormControl>
-                    {/* <FormDescription>
-                    This is your public display name.
-                  </FormDescription> */}
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <FormField
-                control={form.control}
                 name="password"
                 render={() => (
                   <FormItem>
@@ -115,9 +117,6 @@ export default function LoginForm() {
                         placeholder="enter password"
                       />
                     </FormControl>
-                    {/* <FormDescription>
-                    This is your public display name.
-                  </FormDescription> */}
                     <FormMessage />
                   </FormItem>
                 )}

@@ -13,14 +13,35 @@ import BtnDeleteExpense from "./btnDeleteExpense";
 
 import prisma from "@/lib/prisma";
 import { MergedExpensesIncome } from "@/lib/types";
+import { cookies } from "next/headers";
+import { decrypt } from "@/lib/session";
 
 export default async function ExpenseLogs() {
+  const session = (await cookies()).get("session")?.value;
+  const payload = await decrypt(session);
+
+  // const data = await prisma.expenses.findMany({
+  //   where: {
+  //     userId: payload?.userId as string,
+  //   },
+  //   orderBy: {
+  //     createdAt: "desc",
+  //   },
+  // });
+
+  // const lastData = data[0];
+
+  // console.log(data);
+  // console.log(lastData);
+
+  const userId = payload?.userId as string;
+
   const data: any[] = await prisma.$queryRaw`(
     SELECT id, title, amount, description, "createdAt"
-      FROM "Expenses"
+      FROM "Expenses" WHERE "userId" = ${userId}
         UNION ALL
     SELECT id, title, amount, description, "createdAt"
-      FROM "Income"
+      FROM "Income" WHERE "userId" = ${userId}
     ORDER BY "createdAt" DESC
   )
 

@@ -303,40 +303,49 @@ export default function ClientNewExpense({
         </CardContent>
         <CardFooter>
           {/* <p>Card Footer</p> */}
-          <div>
-            <p>
-              Last added:{" "}
-              {lastData.createdAt.toISOString().split("T")[0].split("-")[1]}-
-              {lastData.createdAt.toISOString().split("T")[0].split("-")[2]}-
-              {lastData.createdAt.toISOString().split("T")[0].split("-")[0]},{" "}
-              {String(
-                lastData.createdAt
-                  .toISOString()
-                  .split("T")[1]
-                  .split(".")[0]
-                  .split(":")[0] % 12
-              ).padStart(2, "0")}
-              :
-              {
-                lastData.createdAt
-                  .toISOString()
-                  .split("T")[1]
-                  .split(".")[0]
-                  .split(":")[1]
-              }{" "}
-              {lastData.createdAt
-                .toISOString()
-                .split("T")[1]
-                .split(".")[0]
-                .split(":")[0] >= 12
-                ? "P.M."
-                : "A.M."}
-            </p>
-            <p>Expense title: {lastData.title}</p>
-            <p>Expense amount: ₱{lastData.amount.toFixed(2)}</p>
-            <p>Expense category: {lastData.category}</p>
-            <p>Expense description: {lastData.description}</p>
-          </div>
+          {data.length === 0 ? (
+            <p>No expenses yet.</p>
+          ) : (
+            <>
+              <div>
+                <p>
+                  Last added:{" "}
+                  {lastData.createdAt.toISOString().split("T")[0].split("-")[1]}
+                  -
+                  {lastData.createdAt.toISOString().split("T")[0].split("-")[2]}
+                  -
+                  {lastData.createdAt.toISOString().split("T")[0].split("-")[0]}
+                  ,{" "}
+                  {String(
+                    lastData.createdAt
+                      .toISOString()
+                      .split("T")[1]
+                      .split(".")[0]
+                      .split(":")[0] % 12
+                  ).padStart(2, "0")}
+                  :
+                  {
+                    lastData.createdAt
+                      .toISOString()
+                      .split("T")[1]
+                      .split(".")[0]
+                      .split(":")[1]
+                  }{" "}
+                  {lastData.createdAt
+                    .toISOString()
+                    .split("T")[1]
+                    .split(".")[0]
+                    .split(":")[0] >= 12
+                    ? "P.M."
+                    : "A.M."}
+                </p>
+                <p>Expense title: {lastData.title}</p>
+                <p>Expense amount: ₱{lastData.amount.toFixed(2)}</p>
+                <p>Expense category: {lastData.category}</p>
+                <p>Expense description: {lastData.description}</p>
+              </div>
+            </>
+          )}
         </CardFooter>
       </Card>
       {/* <ExpenseTable data={data} /> */}
