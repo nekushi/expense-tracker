@@ -26,6 +26,19 @@ enum Category {
   others
 }
 
+// n. Add user account
+model User {
+  id        String     @id @default(uuid())
+  firstName String
+  lastName  String
+  email     String     @unique
+  username  String
+  password  String
+  contactNo String
+  income    Income[]
+  expenses  Expenses[]
+}
+
 model Income {
   id          String   @id @default(uuid())
   title       String
@@ -33,6 +46,8 @@ model Income {
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
+  user        User?    @relation(fields: [userId], references: [id])
+  userId      String?
 }
 
 // 📝 n. Add Expenses. Input: title, amount, date, category, optional note. Example: Groceries - $50 - May 30 - Food === DONE
@@ -44,6 +59,8 @@ model Expenses {
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
+  user        User?    @relation(fields: [userId], references: [id])
+  userId      String?
 }
 
 // n. View Expense List. Paginated or filterable list of expenses. Grouped by day, week, or month (optional) === PAGINATED, AND FILTRATION WHEN DATA IS SUFFICIENT, DONE
