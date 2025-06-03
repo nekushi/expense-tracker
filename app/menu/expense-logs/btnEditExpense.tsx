@@ -33,6 +33,8 @@ import { IconEdit } from "@tabler/icons-react";
 
 import { handleEditExpense } from "@/app/action";
 import { useActionState } from "react";
+import { Textarea } from "@/components/ui/textarea";
+import { Category } from "@/app/generated/prisma";
 
 const FormSchema = z.object({
   title: z.string().min(1, { message: "This input box can't be empty." }),
@@ -44,12 +46,16 @@ export default function BtnEditExpense({
   id,
   title,
   amount,
+  category,
   description,
+  type,
 }: {
   id: string;
   title: string;
   amount: number;
+  category: Category;
   description: string;
+  type: "expense" | "income";
 }) {
   const [state, editAction, pending] = useActionState(
     handleEditExpense,
@@ -141,12 +147,36 @@ export default function BtnEditExpense({
                 )}
               />
               <FormField
+                name="category"
+                render={() => (
+                  <FormItem className="">
+                    <FormLabel>Category</FormLabel>
+                    <FormControl>
+                      <Input
+                        name="category"
+                        defaultValue={category}
+                        placeholder="enter expense category"
+                      />
+                    </FormControl>
+                    <FormDescription className="hidden cursor-default">
+                      Add amount.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
                 name="description"
                 render={() => (
                   <FormItem>
                     <FormLabel>Notes or Details</FormLabel>
                     <FormControl>
-                      <Input
+                      {/* <Input
+                        name="description"
+                        defaultValue={description}
+                        placeholder="enter expense description"
+                      /> */}
+                      <Textarea
                         name="description"
                         defaultValue={description}
                         placeholder="enter expense description"
@@ -154,6 +184,30 @@ export default function BtnEditExpense({
                     </FormControl>
                     <FormDescription className="hidden cursor-default">
                       Add description.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="type"
+                render={() => (
+                  <FormItem className="hidden">
+                    <FormLabel>Type</FormLabel>
+                    <FormControl>
+                      {/* <Input
+                        name="type"
+                        defaultValue={type}
+                        placeholder="enter expense type"
+                      /> */}
+                      <Textarea
+                        name="type"
+                        defaultValue={type}
+                        placeholder="enter expense type"
+                      />
+                    </FormControl>
+                    <FormDescription className="hidden cursor-default">
+                      Add type.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

@@ -34,6 +34,8 @@ export async function handleExpenseSubmit(prevState: any, formdata: FormData) {
   });
 
   console.log(createExpense);
+
+  redirect("/menu/new-expense");
 }
 
 export async function handleEditExpense(prevState: any, formdata: FormData) {
@@ -44,43 +46,85 @@ export async function handleEditExpense(prevState: any, formdata: FormData) {
   const amount = Math.round(Number(formdata.get("amount")) * 100) / 100;
   const category = formdata.get("category") as Category;
   const description = formdata.get("description") as string;
+  const type = formdata.get("type") as string;
+
+  if (!id || !type) {
+    console.error("Missing ID or type");
+    return;
+  }
 
   console.log(name, amount, category, description);
 
   const session = (await cookies()).get("session")?.value;
   const payload = await decrypt(session);
 
-  const editExpense = await prisma.expenses.update({
-    where: {
-      id: id,
-    },
-    data: {
-      id,
-      title: name,
-      amount,
-      category,
-      description,
-      updatedAt: currentNow,
-      user: {
-        connect: { id: payload?.userId as string },
-      },
-    },
-  });
+  try {
+    if (type === "expense") {
+      const editExpense = await prisma.expenses.update({
+        where: { id },
+        data: {
+          title: name,
+          amount,
+          category,
+          description,
+          updatedAt: currentNow,
+          user: {
+            connect: { id: payload?.userId as string },
+          },
+        },
+      });
 
-  console.log(editExpense);
+      console.log(editExpense);
+    } else if (type === "income") {
+      const editExpense = await prisma.income.update({
+        where: { id },
+        data: {
+          title: name,
+          amount,
+          category,
+          description,
+          updatedAt: currentNow,
+          user: {
+            connect: { id: payload?.userId as string },
+          },
+        },
+      });
+
+      console.log(editExpense);
+    } else {
+      throw new Error("Unknown type");
+    }
+    console.log(`Edited ${type} with ID: ${id}`);
+  } catch (error) {
+    console.error("Edit failed:", error);
+  }
+
+  redirect("/menu/expense-logs");
 }
 
 export async function handleDeleteExpense(prevState: any, formdata: FormData) {
-  console.log(`Attempting to delete expense data row.`);
-
   const id = formdata.get("id") as string;
-  await prisma.expenses.delete({
-    where: {
-      id,
-    },
-  });
+  const type = formdata.get("type") as string;
 
-  console.log(id);
+  if (!id || !type) {
+    console.error("Missing ID or type");
+    return;
+  }
+
+  try {
+    if (type === "expense") {
+      await prisma.expenses.delete({ where: { id } });
+    } else if (type === "income") {
+      await prisma.income.delete({ where: { id } });
+    } else {
+      throw new Error("Unknown type");
+    }
+    console.log(`Deleted ${type} with ID: ${id}`);
+  } catch (error) {
+    console.error("Delete failed:", error);
+  }
+
+  redirect("/menu/expense-logs");
 }
 
 export async function actionAddMoney(prevState: any, formdata: FormData) {
@@ -89,6 +133,8 @@ export async function actionAddMoney(prevState: any, formdata: FormData) {
   const name = formdata.get("title") as string;
   const amount = Math.round(Number(formdata.get("amount")) * 100) / 100;
   const description = formdata.get("description") as string;
+
+  const url = formdata.get("url");
 
   console.log(name, amount, description);
 
@@ -99,6 +145,7 @@ export async function actionAddMoney(prevState: any, formdata: FormData) {
     data: {
       title: name,
       amount,
+      category: "others",
       description,
       createdAt: currentNow,
       updatedAt: currentNow,
@@ -109,6 +156,8 @@ export async function actionAddMoney(prevState: any, formdata: FormData) {
   });
 
   console.log(createIncome);
+
+  redirect(`${url}`);
 }
 
 export async function createUser(prevState: any, formdata: FormData) {

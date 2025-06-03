@@ -29,13 +29,13 @@ import { useActionState } from "react";
 import { logout } from "@/app/action";
 
 export function NavUser({
-  user,
+  id,
+  username,
+  email,
 }: {
-  user: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
+  id: string;
+  username: string;
+  email: string;
 }) {
   const [state, logoutAction, pending] = useActionState(logout, undefined);
 
@@ -51,13 +51,13 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">
-                <AvatarImage src={user.avatar} alt={user.name} />
+                <AvatarImage src="/avatars/shadcn.jpg" alt={username} />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
+                <span className="truncate font-medium">{username}</span>
                 <span className="text-muted-foreground truncate text-xs">
-                  {user.email}
+                  {email}
                 </span>
               </div>
               <IconDotsVertical className="ml-auto size-4" />
@@ -72,13 +72,13 @@ export function NavUser({
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
+                  <AvatarImage src="/avatars/shadcn.jpg" alt={username} />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
+                  <span className="truncate font-medium">{username}</span>
                   <span className="text-muted-foreground truncate text-xs">
-                    {user.email}
+                    {email}
                   </span>
                 </div>
               </div>
@@ -101,10 +101,18 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <IconLogout />
-              Log out
-              {/* <form action={logoutAction}>
-                <input type="text" placeholder="id here" className="" value={} />
-              </form> */}
+              <form action={logoutAction} className="w-full h-full">
+                <input
+                  type="text"
+                  placeholder="id here"
+                  value={id}
+                  readOnly
+                  className="sr-only"
+                />
+                <button type="submit" className="w-full text-left">
+                  Log out
+                </button>
+              </form>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

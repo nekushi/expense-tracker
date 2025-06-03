@@ -108,11 +108,20 @@ export function NavMain({
                         placeholder="description"
                       />
                     </div>
+                    <div className="hidden">
+                      <Label htmlFor="url">URL</Label>
+                      <Input
+                        id="url"
+                        name="url"
+                        defaultValue={pathname}
+                        placeholder="url"
+                      />
+                    </div>
                     <DialogFooter>
                       <DialogClose asChild>
                         <Button variant="outline">Cancel</Button>
                       </DialogClose>
-                      <Button type="submit">Save changes</Button>
+                      <Button type="submit">Add money</Button>
                     </DialogFooter>
                   </div>
                 </form>

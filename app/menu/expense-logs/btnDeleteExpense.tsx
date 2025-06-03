@@ -40,7 +40,13 @@ const FormSchema = z.object({
   description: z.string(),
 });
 
-export default function BtnDeleteExpense({ id }: { id: string }) {
+export default function BtnDeleteExpense({
+  id,
+  type,
+}: {
+  id: string;
+  type: "expense" | "income";
+}) {
   const [state, deleteAction, pending] = useActionState(
     handleDeleteExpense,
     undefined
@@ -83,6 +89,25 @@ export default function BtnDeleteExpense({ id }: { id: string }) {
                     </FormControl>
                     <FormDescription className="hidden cursor-default">
                       Add id.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="type"
+                render={() => (
+                  <FormItem className="hidden">
+                    <FormLabel>Expense Type</FormLabel>
+                    <FormControl>
+                      <Input
+                        name="type"
+                        defaultValue={type}
+                        placeholder="enter expense type"
+                      />
+                    </FormControl>
+                    <FormDescription className="hidden cursor-default">
+                      Add type.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

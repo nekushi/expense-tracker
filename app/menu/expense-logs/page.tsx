@@ -36,16 +36,40 @@ export default async function ExpenseLogs() {
 
   const userId = payload?.userId as string;
 
-  const data: any[] = await prisma.$queryRaw`(
-    SELECT id, title, amount, description, "createdAt"
-      FROM "Expenses" WHERE "userId" = ${userId}
-        UNION ALL
-    SELECT id, title, amount, description, "createdAt"
-      FROM "Income" WHERE "userId" = ${userId}
-    ORDER BY "createdAt" DESC
-  )
+  // const data: any[] = await prisma.$queryRaw`(
+  //   SELECT id, title, amount, description, "createdAt", category
+  //     FROM "Expenses"
+  //       UNION ALL
+  //   SELECT id, title, amount, description, "createdAt", category
+  //     FROM "Income"
+  //   ORDER BY "createdAt" DESC
+  // )`;
 
-`;
+  // const data: any[] = await prisma.$queryRaw`(
+  //   SELECT id, title, amount, description, "createdAt", category
+  //     FROM "Expenses" WHERE "userId" = ${userId}
+  //       UNION ALL
+  //   SELECT id, title, amount, description, "createdAt", category
+  //     FROM "Income" WHERE "userId" = ${userId}
+  //   ORDER BY "createdAt" DESC
+  // )`;
+
+  const data: any[] = await prisma.$queryRaw`
+    (
+      SELECT id, title, amount, description, "createdAt", category, 'expense' AS type
+      FROM "Expenses"
+      WHERE "userId" = ${userId}
+
+      UNION ALL
+
+      SELECT id, title, amount, description, "createdAt", category, 'income' AS type
+      FROM "Income"
+      WHERE "userId" = ${userId}
+    )
+    ORDER BY "createdAt" DESC
+    `;
+
+  console.log(data);
 
   // return <ClientExpenseLogs data={data} />;
   return (
@@ -70,9 +94,11 @@ export default async function ExpenseLogs() {
                 id={item.id}
                 title={item.title}
                 amount={item.amount}
+                category={item.category}
                 description={item.description}
+                type={item.type}
               />
-              <BtnDeleteExpense id={item.id} />
+              <BtnDeleteExpense id={item.id} type={item.type} />
             </TableCell>
           </TableRow>
         ))}
