@@ -4,7 +4,7 @@ import ClientNewExpense from "./clientNewExpense";
 export default async function ServerNewExpense() {
   const data = await prisma.expenses.findMany({
     orderBy: {
-      date: "desc",
+      createdAt: "desc",
     },
   });
 

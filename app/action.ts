@@ -18,7 +18,8 @@ export async function handleExpenseSubmit(prevState: any, formdata: FormData) {
       amount,
       category,
       description,
-      date: currentNow,
+      createdAt: currentNow,
+      updatedAt: currentNow,
     },
   });
 
@@ -46,7 +47,7 @@ export async function handleEditExpense(prevState: any, formdata: FormData) {
       amount,
       category,
       description,
-      date: currentNow,
+      updatedAt: currentNow,
     },
   });
 
@@ -57,7 +58,6 @@ export async function handleDeleteExpense(prevState: any, formdata: FormData) {
   console.log(`Attempting to delete expense data row.`);
 
   const id = formdata.get("id") as string;
-
   await prisma.expenses.delete({
     where: {
       id,
@@ -65,4 +65,14 @@ export async function handleDeleteExpense(prevState: any, formdata: FormData) {
   });
 
   console.log(id);
+}
+
+export async function actionAddMoney(prevState: any, formdata: FormData) {
+  console.log(`Attempting to add money data row.`);
+
+  const name = formdata.get("title");
+  const amount = formdata.get("amount");
+  const description = formdata.get("description");
+
+  console.log(name, amount, description);
 }

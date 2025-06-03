@@ -4,5 +4,6 @@ export type ExpensesField = {
   amount: number;
   category: string;
   description: string;
-  date: any;
+  createdAt: any;
+  updatedAt: any;
 };

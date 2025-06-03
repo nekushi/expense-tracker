@@ -306,11 +306,11 @@ export default function ClientNewExpense({
           <div>
             <p>
               Last added:{" "}
-              {lastData.date.toISOString().split("T")[0].split("-")[1]}-
-              {lastData.date.toISOString().split("T")[0].split("-")[2]}-
-              {lastData.date.toISOString().split("T")[0].split("-")[0]},{" "}
+              {lastData.createdAt.toISOString().split("T")[0].split("-")[1]}-
+              {lastData.createdAt.toISOString().split("T")[0].split("-")[2]}-
+              {lastData.createdAt.toISOString().split("T")[0].split("-")[0]},{" "}
               {String(
-                lastData.date
+                lastData.createdAt
                   .toISOString()
                   .split("T")[1]
                   .split(".")[0]
@@ -318,13 +318,13 @@ export default function ClientNewExpense({
               ).padStart(2, "0")}
               :
               {
-                lastData.date
+                lastData.createdAt
                   .toISOString()
                   .split("T")[1]
                   .split(".")[0]
                   .split(":")[1]
               }{" "}
-              {lastData.date
+              {lastData.createdAt
                 .toISOString()
                 .split("T")[1]
                 .split(".")[0]

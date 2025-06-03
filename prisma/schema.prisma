@@ -26,14 +26,24 @@ enum Category {
   others
 }
 
-// 📝 1. Add Expenses. Input: title, amount, date, category, optional note. Example: Groceries - $50 - May 30 - Food === DONE
+model Income {
+  id          String   @id @default(uuid())
+  title       String
+  amount      Float
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+}
+
+// 📝 n. Add Expenses. Input: title, amount, date, category, optional note. Example: Groceries - $50 - May 30 - Food === DONE
 model Expenses {
   id          String   @id @default(uuid())
   title       String
   amount      Float
   category    Category @default(others)
   description String
-  date        DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
 }
 
-// 2. View Expense List. Paginated or filterable list of expenses. Grouped by day, week, or month (optional)
+// n. View Expense List. Paginated or filterable list of expenses. Grouped by day, week, or month (optional) === PAGINATED, AND FILTRATION WHEN DATA IS SUFFICIENT, DONE

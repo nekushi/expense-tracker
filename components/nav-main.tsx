@@ -1,6 +1,14 @@
 "use client";
 
-import { IconCirclePlusFilled, IconMail, type Icon } from "@tabler/icons-react";
+import {
+  IconArrowAutofitRight,
+  IconArrowRight,
+  IconCirclePlusFilled,
+  IconMail,
+  IconMoneybagPlus,
+  IconSignRight,
+  type Icon,
+} from "@tabler/icons-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -11,8 +19,23 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useActionState } from "react";
+import { actionAddMoney } from "@/app/action";
 
 export function NavMain({
   items,
@@ -25,6 +48,11 @@ export function NavMain({
 }) {
   const pathname = usePathname();
 
+  const [state, addMoneyAction, pending] = useActionState(
+    actionAddMoney,
+    undefined
+  );
+
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
@@ -32,19 +60,55 @@ export function NavMain({
           <SidebarMenuItem className="flex items-center gap-2">
             <SidebarMenuButton
               tooltip="Quick Create"
-              className="bg-neutral-500 text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
+              className="bg-neutral-700 text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
             >
-              <IconCirclePlusFilled />
-              <span>Quick Create</span>
+              {/* <IconCirclePlusFilled /> */}
+              <IconMoneybagPlus />
+              <span>Add Money</span>
             </SidebarMenuButton>
-            <Button
-              size="icon"
-              className="size-8 group-data-[collapsible=icon]:opacity-0"
-              variant="outline"
-            >
-              <IconMail />
-              <span className="sr-only">Inbox</span>
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline">
+                  <IconArrowRight />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <form action={addMoneyAction}>
+                  <DialogHeader>
+                    <DialogTitle>Add money</DialogTitle>
+                    <DialogDescription>
+                      Add money to your account here. Click save when you're
+                      done.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid gap-4 mt-6">
+                    <div className="grid gap-3">
+                      <Label htmlFor="title">Title</Label>
+                      <Input id="title" name="title" placeholder="title" />
+                    </div>
+                    <div className="grid gap-3">
+                      <Label htmlFor="amount">Amount (₱) or Amount (PHP)</Label>
+                      <Input id="amount" name="amount" placeholder="amount" />
+                    </div>
+                    <div className="grid gap-3">
+                      <Label htmlFor="description">Description</Label>
+                      <Input
+                        id="description"
+                        name="description"
+                        placeholder="description"
+                      />
+                    </div>
+                    <DialogFooter>
+                      <DialogClose asChild>
+                        <Button variant="outline">Cancel</Button>
+                      </DialogClose>
+                      <Button type="submit">Save changes</Button>
+                    </DialogFooter>
+                  </div>
+                </form>
+              </DialogContent>
+            </Dialog>
+            <span className="sr-only">Inbox</span>
           </SidebarMenuItem>
         </SidebarMenu>
         <SidebarMenu>
