@@ -27,11 +27,21 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import Image from "next/image";
 
 const formSchema = z.object({
-  username: z.string().min(6, {
+  username: z.string().min(4, {
     message: "Username must be at least 6 characters.",
   }),
+  password: z
+    .string()
+    .min(8, { message: "Be at least 8 characters long" })
+    .regex(/[a-zA-Z]/, { message: "Contain at least one letter." })
+    .regex(/[0-9]/, { message: "Contain at least one number." })
+    .regex(/[^a-zA-Z0-9]/, {
+      message: "Contain at least one special character.",
+    })
+    .trim(),
 });
 
 export default function LoginForm() {
@@ -41,6 +51,7 @@ export default function LoginForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
+      password: "",
     },
   });
 
@@ -52,43 +63,72 @@ export default function LoginForm() {
   }
 
   return (
-    <Card className="w-full max-w-sm">
-      <CardHeader>
-        <CardTitle>Login to your account</CardTitle>
-        <CardDescription>
-          Enter your email below to login to your account
-        </CardDescription>
-        <CardAction>
-          <Link href={"/signup"}>
-            <Button variant="link">Sign Up</Button>
-          </Link>
-        </CardAction>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <Input placeholder="shadcn" {...field} />
-                  </FormControl>
-                  <FormDescription>
+    <div className="border border-black w-full h-screen relative overflow-hidden flex justify-center items-center">
+      <Image
+        // src="/bg-squares.jpg"
+        src="/bg-black-github.png"
+        alt="bg black github"
+        width={1600}
+        height={1600}
+        className="absolute opacity-5 -z-50"
+      />
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <CardTitle>Login to your account</CardTitle>
+          <CardDescription>
+            Enter your username and password below to login to your account
+          </CardDescription>
+          <CardAction>
+            <Link href={"/signup"}>
+              <Button variant="link">Sign Up</Button>
+            </Link>
+          </CardAction>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form className="space-y-6">
+              <FormField
+                name="username"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input name="username" placeholder="enter username" />
+                    </FormControl>
+                    {/* <FormDescription>
                     This is your public display name.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" className="w-full">
-              Submit
-            </Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+                  </FormDescription> */}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        name="password"
+                        placeholder="enter password"
+                      />
+                    </FormControl>
+                    {/* <FormDescription>
+                    This is your public display name.
+                  </FormDescription> */}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" className="w-full">
+                Login
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

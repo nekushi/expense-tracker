@@ -1,8 +1,10 @@
 "use server";
 
-import { currentNow } from "@/lib/currentDate";
 import prisma from "@/lib/prisma";
 import { Category } from "./generated/prisma";
+
+import { currentNow } from "@/lib/currentDate";
+import { redirect } from "next/navigation";
 
 export async function handleExpenseSubmit(prevState: any, formdata: FormData) {
   console.log(`Attempting to add expense row.`);
@@ -87,4 +89,32 @@ export async function actionAddMoney(prevState: any, formdata: FormData) {
   });
 
   console.log(createIncome);
+}
+
+export async function createUser(prevState: any, formdata: FormData) {
+  console.log(`Attempting to add new user.`);
+
+  const firstName = formdata.get("first-name") as string;
+  const lastName = formdata.get("last-name") as string;
+  const email = formdata.get("email") as string;
+  const username = formdata.get("username") as string;
+  const password = formdata.get("password") as string;
+
+  console.log(firstName, lastName, email, username, password);
+
+  const createUser = await prisma.user.create({
+    data: {
+      firstName,
+      lastName,
+      email,
+      username,
+      password,
+      contactNo: "",
+      createdAt: currentNow,
+      updatedAt: currentNow,
+    },
+  });
+
+  console.log(createUser);
+  redirect("/");
 }
