@@ -7,3 +7,12 @@ export type ExpensesField = {
   createdAt: any;
   updatedAt: any;
 };
+
+export type MergedExpensesIncome = {
+  id: number;
+  title: string;
+  amount: number;
+  description: string | null;
+  createdAt: any;
+  type: "expense" | "income";
+};

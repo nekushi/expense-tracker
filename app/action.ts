@@ -70,9 +70,21 @@ export async function handleDeleteExpense(prevState: any, formdata: FormData) {
 export async function actionAddMoney(prevState: any, formdata: FormData) {
   console.log(`Attempting to add money data row.`);
 
-  const name = formdata.get("title");
-  const amount = formdata.get("amount");
-  const description = formdata.get("description");
+  const name = formdata.get("title") as string;
+  const amount = Math.round(Number(formdata.get("amount")) * 100) / 100;
+  const description = formdata.get("description") as string;
 
   console.log(name, amount, description);
+
+  const createIncome = await prisma.income.create({
+    data: {
+      title: name,
+      amount,
+      description,
+      createdAt: currentNow,
+      updatedAt: currentNow,
+    },
+  });
+
+  console.log(createIncome);
 }

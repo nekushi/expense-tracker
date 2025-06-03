@@ -84,11 +84,21 @@ export function NavMain({
                   <div className="grid gap-4 mt-6">
                     <div className="grid gap-3">
                       <Label htmlFor="title">Title</Label>
-                      <Input id="title" name="title" placeholder="title" />
+                      <Input
+                        id="title"
+                        name="title"
+                        placeholder="title"
+                        required
+                      />
                     </div>
                     <div className="grid gap-3">
                       <Label htmlFor="amount">Amount (₱) or Amount (PHP)</Label>
-                      <Input id="amount" name="amount" placeholder="amount" />
+                      <Input
+                        id="amount"
+                        name="amount"
+                        placeholder="amount"
+                        required
+                      />
                     </div>
                     <div className="grid gap-3">
                       <Label htmlFor="description">Description</Label>

@@ -44,13 +44,11 @@ export default function BtnEditExpense({
   id,
   title,
   amount,
-  category,
   description,
 }: {
   id: string;
   title: string;
   amount: number;
-  category: string;
   description: string;
 }) {
   const [state, editAction, pending] = useActionState(
@@ -137,25 +135,6 @@ export default function BtnEditExpense({
                     </FormControl>
                     <FormDescription className="hidden cursor-default">
                       Add amount.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                name="category"
-                render={() => (
-                  <FormItem className="hidden">
-                    <FormLabel>Notes or Details</FormLabel>
-                    <FormControl>
-                      <Input
-                        name="category"
-                        defaultValue={category}
-                        placeholder="enter expense category"
-                      />
-                    </FormControl>
-                    <FormDescription className="hidden cursor-default">
-                      Add description.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

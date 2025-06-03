@@ -3,6 +3,8 @@ DATE STARTED: 05/30/2025
 - installed prisma
 // npx shadcn@latest add <dialog>
 
+NOTE: add pending buttons (strictly required)
+
 
 
 
